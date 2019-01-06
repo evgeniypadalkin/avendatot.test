@@ -1,0 +1,17 @@
+{
+    "name": "evgen/avendator.test",
+    "authors": [
+        {
+            "name": "Evgeniy Padalkin",
+            "email": "evgeniypadalkin2@gmail.com"
+        }
+    ],
+    "type": "project",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "App\\": "app/",
+            "Core\\": "core/"
+        }
+    }
+}
