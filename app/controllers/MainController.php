@@ -19,14 +19,7 @@ class MainController
 
         if (file_exists($file)) {
             extract($this->data);
-
-            //ob_start();
-
             require($file);
-
-            //$output = ob_get_contents();
-
-            //ob_end_clean();
 
         } else {
             trigger_error('Error: Not template ' . $file);

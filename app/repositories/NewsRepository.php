@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: evgen
- * Date: 06.01.2019
- * Time: 11:13
- */
 
 namespace App\Repositories;
 
@@ -23,5 +17,21 @@ class NewsRepository
     public function getNews($start = 0, $limit = 10) {
         $news_rows = $this->news->selectNews($start, $limit);
         return $news_rows;
+    }
+
+    public function getNewsById($id) {
+        $news_row = $this->news->selectNewsById($id);
+        return $news_row;
+    }
+
+    public function editNews($request) {
+
+        $data = [
+            'id' => $request->param['id'],
+            'title' => $request->param['title'],
+            'text' => $request->param['text'],
+        ];
+
+        $this->news->editNews($data);
     }
 }

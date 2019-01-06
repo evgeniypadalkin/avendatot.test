@@ -20,4 +20,22 @@ class NewsController extends MainController
         $this->data['news'] = $this->news_rep->getNews();
         $this->render();
     }
+
+    public function get(Request $request) {
+        if(isset($request->param['id'])) {
+            $item = $this->news_rep->getNewsById($request->param['id']);
+            echo json_encode($item);
+        } else {
+            echo json_encode(['error' => 'Error id']);
+        }
+    }
+
+    public function edit(Request $request) {
+        if(isset($request->param['id'])) {
+            $item = $this->news_rep->editNews($request);
+            echo json_encode(['success' => 'Ok']);
+        } else {
+            echo json_encode(['error' => 'Error id']);
+        }
+    }
 }

@@ -22,4 +22,15 @@ class News extends DB
         return $stm->fetchAll();
     }
 
+    public function selectNewsById($id) {
+        $stm = self::$dbConnection->prepare('SELECT id, title, text FROM news WHERE id = :id');
+        $stm->execute(['id'=>$id]);
+        return $stm->fetch();
+    }
+
+    public function editNews($data) {
+        $stm = self::$dbConnection->prepare('UPDATE news SET title = :title, text = :text WHERE id = :id');
+        $stm->execute(['id'=>$data['id'], 'title'=>$data['title'], 'text'=>$data['text']]);
+    }
+
 }
