@@ -24,6 +24,16 @@ class NewsRepository
         return $news_row;
     }
 
+    public function addNews($request) {
+        $data = [
+            'title' => $request->param['title'],
+            'text' => $request->param['text'],
+        ];
+
+        $id = $this->news->addNews($data);
+        return $id;
+    }
+
     public function editNews($request) {
 
         $data = [
@@ -33,5 +43,14 @@ class NewsRepository
         ];
 
         $this->news->editNews($data);
+    }
+
+    public function deleteNews($id) {
+        $this->news->deleteNewsById($id);
+    }
+
+    public function total() {
+        $total = $this->news->total();
+        return $total['total'];
     }
 }

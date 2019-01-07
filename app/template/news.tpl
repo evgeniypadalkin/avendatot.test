@@ -12,12 +12,20 @@
         <header></header>
 
         <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-3">
+                    <button onclick="addItem()" type="button" class="btn btn-success">Add</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="container news-container">
             <?php foreach($news as $item){ ?>
-                <div class="row row-<?php echo $item['id'] ?>">
-                    <div class="col-2 title">
+                <div class="row row-<?php echo $item['id'] ?> news-row">
+                    <div class="col-3 title">
                         <?php echo $item['title'] ?>
                     </div>
-                    <div class="col-3 text">
+                    <div class="col-6 text">
                         <?php echo $item['text'] ?>
                     </div>
                     <div class="col-3">
@@ -26,7 +34,10 @@
                     </div>
                 </div>
             <?php } ?>
+            <div class="paginate"> <?php echo $paginate ?> </div>
         </div>
+
+
 
         <!-- Modal -->
         <div class="modal fade" id="newsModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -40,13 +51,9 @@
                     </div>
                     <div class="modal-body">
                         <form method="post" action="/news/edit" id="news">
-                            <div class="row">
-                                <div class="col-12">
-                                    <input name="title" type="text" value="">
-                                </div>
-                                <div class="col-12">
-                                    <textarea name="text"></textarea>
-                                </div>
+                            <div class="form-group">
+                                <input name="title" type="text" value="" class="form-control" placeholder="Title*">
+                                <textarea name="text" class="form-control" placeholder="Text*"></textarea>
                                 <input type="hidden" value="" name="item_id">
                             </div>
                         </form>
@@ -59,66 +66,7 @@
             </div>
         </div>
 
-        <script type="text/javascript">
-            function editItem(id) {
-                $('#newsModal').modal('show');
-
-                $.ajax({
-                    url: '/news/get',
-                    type: 'post',
-                    dataType: 'json',
-                    data: 'id='+id,
-
-                    success: function(json) {
-
-                        if(json['error'] === undefined) {
-                            console.log(json);
-                            $('[name="title"]').val(json['title']);
-                            $('[name="text"]').val(json['text']);
-                            $('[name="item_id"]').val(json['id']);
-                        }
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                    }
-                });
-            }
-
-            function deleteItem(id) {
-
-            }
-
-            $(document).on('submit',function (e) {
-                e.preventDefault();
-
-                let data = {
-                    'id': $('[name="item_id"]').val(),
-                    'title': $('[name="title"]').val(),
-                    'text': $('[name="text"]').val()
-                };
-
-                $.ajax({
-                    url: '/news/edit',
-                    type: 'post',
-                    dataType: 'json',
-                    data: data,
-
-                    success: function(json) {
-                        console.log(123);
-                        if(json['error'] === undefined) {
-                            $('.row-'+$('[name="item_id"]').val()+' .title').html(data.title);
-                            $('.row-'+$('[name="item_id"]').val()+' .text').html(data.text);
-                        }
-                    },
-                    error: function(xhr, ajaxOptions, thrownError) {
-                        console.log(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
-                    }
-                });
-
-                $('#newsModal').modal('hide');
-            });
-        </script>
-
+        <script src="/public/js/common/news.js"></script>
         <!-- jQuery first, then Popper.js, then Bootstrap JS -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
         <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
